@@ -32,7 +32,7 @@ if [[ "$#" -lt 4 ]]; then
 fi
 
 
-## Dependency: samtools, samToAlignment, meryl v1.0, subsetSamByKmers.py, samToErrorRate, SubFile, IGVTools
+## Dependency: samtools, samToAlignment, meryl v1.0, subsetSamByKmers.py, samToErrorRate, SubFile, IGVTools, Python2.7, Java
 
 alignment=$1    # input bam / cram file 
 target=$2	# chrX
@@ -132,7 +132,7 @@ else
    python src/subsetSamByKmers.py $target.alignment.posCount $target.sam > $target.markers.sam
    samtools sort -@$cores -O cram -o $target.markers.cram -T $target.$PREFIX.tmp --reference=$asm $target.markers.sam
    #samtools index $target.markers.cram
-   $tools/IGVTools/igvtools count $target.markers.cram $target.markers.tdf $asm.fai
+   igvtools count $target.markers.cram $target.markers.tdf $asm.fai
    echo
 
    echo "# filter alignments <50kb to $target.filtered.sam"
@@ -151,5 +151,5 @@ fi
 
 samtools sort -@${cores} -O cram -o $target.markersandlength.cram -T $target.$PREFIX.tmp --reference=$asm $target.filtered.sam
 #samtools index $target.markersandlength.cram
-$tools/IGVTools/igvtools count $target.markersandlength.cram $target.markersandlength.tdf $asm.fai
+igvtools count $target.markersandlength.cram $target.markersandlength.tdf $asm.fai
 
